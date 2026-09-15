@@ -63,8 +63,8 @@ def sitemap(url, include=None, exclude=None, label=None, path_prefix=None, title
             "title_exclude": title_exclude or []}
 
 
-LOCAL_TITLE_EXCLUDE = ["Course -", "Bootcamp", "Masterclass", "Udemy", "Coursera", "Tutorial",
-                       "使ってみた", "とは?", "始め方", "初心者向け"]
+LOCAL_TITLE_EXCLUDE = ["Course -", "Bootcamp", "Masterclass", "Udemy", "Coursera",
+                       "Tutorial", "使ってみた", "とは?", "始め方", "初心者向け", "入門"]
 
 COL_FW, COL_MODEL, COL_QUANT, COL_VLM, COL_STT = 0x00E5FF, 0xFFB800, 0xFF4747, 0x9C27B0, 0x2196F3
 
@@ -72,7 +72,7 @@ LLM_FW_TERMS = ["Hugging Face", "Ollama", "llama.cpp", "GGUF", "LM Studio", "vLL
                 "ExLlama", "MLX", "llamafile", "KoboldCpp", "text-generation-webui", "TensorRT-LLM",
                 "MLC LLM", "ローカルLLM", "ローカル LLM", "ローカル環境", "ローカルで動", "セルフホスト",
                 "self-host", "local LLM", "run locally", "LocalLLaMA", "オンプレ", "推論エンジン",
-                "tok/s", "tokens/s", "KVキャッシュ", "MoE"]
+                "tok/s", "tokens/s", "KVキャッシュ", "MoE", "on-device", "inference"]
 LLM_FW_EXCLUDE = ["攻撃", "侵入", "マルウェア", "ランサム", "詐欺", "脆弱性", "情報流出", "不正アクセス",
                   "[写真]", "値下げ", "株式", "売上高", "資金調達", "買収", "上場",
                   "提携", "パートナーシップ", "訴訟", "蒸留",
@@ -81,20 +81,21 @@ LLM_MODEL_TERMS = ["Llama", "Qwen", "Gemma", "Mistral", "Mixtral", "DeepSeek", "
                    "Yi-", "Nemotron", "GLM-", "InternLM", "Falcon", "OLMo", "Kimi", "MiniMax", "Reka",
                    "DBRX", "Nous Hermes", "Dolphin", "Wizard", "Magnum", "MythoMax", "Chronos",
                    "オープンウェイト", "open-weight", "open weights", "重み公開", "ウェイト公開",
-                   "モデル公開", "モデル提供開始", "generally available", "released", "instruct", "-B "]
+                   "モデル公開", "モデル提供開始", "generally available", "released", "instruct",
+                   "-B ", "-B/", "Hugging Face", "リリース", "launch"]
 LLM_MODEL_EXCLUDE = ["攻撃", "マルウェア", "脆弱性", "訴訟", "iPhone", "Snapdragon", "スマートフォン",
                     "株価", "決算", "投資", "銘柄"]
 QUANT_TERMS = ["GGUF", "EXL2", "EXL3", "AWQ", "GPTQ", "MXFP4", "INT8", "INT4",
                "bitsandbytes", "Marlin", "TensorRT-LLM", "MLX", "SGLang", "DeepSpeed",
                "TorchAO", "HQQ", "量子化", "quantiz", "推論最適化", "inference optimization",
                "K-quant", "IQ-quant", "Q4_K", "Q5_K", "Q8_", "Q6_K", "KVキャッシュ", "kv cache",
-               "speculative decoding", "投機的デコード"]
+               "speculative decoding", "投機的デコード", "vLLM", "推論高速化"]
 QUANT_EXCLUDE = ["株価", "資金調達", "買収"]
 VLM_TERMS = ["Qwen-VL", "Qwen2-VL", "Qwen2.5-VL", "InternVL", "Molmo", "Llama-Vision",
              "Llama 3.2 Vision", "Pixtral", "MiniCPM-V", "Phi-3.5-vision", "Phi-4-vision",
              "DeepSeek-VL", "Ovis", "Aria", "Idefics", "LLaVA", "CogVLM", "Kosmos",
              "vision language model", "VLM", "multimodal", "マルチモーダル", "画像理解",
-             "vision model", "Cambrian", "OmniVLM"]
+             "vision model", "Cambrian", "OmniVLM", "動画理解", "動画認識"]
 VLM_EXCLUDE = ["株価", "決算", "投資"]
 STT_TERMS = ["Whisper", "WhisperX", "faster-whisper", "whisper.cpp", "distil-whisper",
              "Silero", "Vosk", "NeMo Parakeet", "Reverb", "Canary", "SenseVoice",
@@ -107,12 +108,16 @@ TOPICS = [
      rss("https://www.reddit.com/r/LocalLLaMA/hot/.rss?limit=25", include=LLM_FW_TERMS + ["LLM", "model"]),
      gn('llama.cpp OR Ollama OR "LM Studio" OR vLLM OR SGLang OR ExLlama OR "text-generation-webui" OR llamafile OR KoboldCpp OR "MLC LLM"',
         include=LLM_FW_TERMS, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     gn('"ローカルLLM" OR "ローカル環境" OR "ローカルで動" OR セルフホスト',
+     gn('"ローカルLLM" OR "ローカル環境" OR "ローカルで動" OR "セルフホスト" OR "自宅サーバー" OR "オンプレLLM"',
         include=LLM_FW_TERMS, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://news.google.com/rss/search?q=%22local%20LLM%22%20OR%20%22run%20locally%22%20OR%20llama.cpp%20OR%20GGUF%20OR%20Ollama%20OR%20%22LM%20Studio%22%20OR%20vLLM%20OR%20SGLang&hl=en-US&gl=US&ceid=US:en",
          include=LLM_FW_TERMS, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://zenn.dev/topics/llm/feed", include=LLM_FW_TERMS + ["ローカル", "推論"]),
+     rss("https://zenn.dev/topics/ollama/feed", include=LLM_FW_TERMS + ["LLM"]),
+     rss("https://zenn.dev/topics/ai/feed", include=LLM_FW_TERMS),
      rss("https://huggingface.co/blog/feed.xml", include=LLM_FW_TERMS + ["inference", "agents"]),
-     rss("https://ollama.com/blog/rss.xml", include=LLM_FW_TERMS + ["model", "MLX"])]},
+     rss("https://ollama.com/blog/rss.xml", include=LLM_FW_TERMS + ["model", "MLX"]),
+     rss("https://lmstudio.ai/rss.xml", include=LLM_FW_TERMS + ["model"])]},
 
  {"num":"🚀","name":"ローカルllmモデル速報","env":"LLM_MODEL","color":COL_MODEL,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/new/.rss?limit=30", include=LLM_MODEL_TERMS + ["Hugging Face", "release"]),
@@ -120,19 +125,29 @@ TOPICS = [
         include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      gn('"Nous Hermes" OR Dolphin OR Wizard OR Magnum OR MythoMax OR "Yi-" OR "GLM-" OR InternLM OR Falcon OR OLMo',
         include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     gn('"新モデル公開" OR "オープンウェイト" OR "モデル提供開始" OR "重み公開"',
+        include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://news.google.com/rss/search?q=%22open%20weights%22%20OR%20%22weights%20released%22%20OR%20%22available%20on%20Hugging%20Face%22%20OR%20%22released%20on%20HF%22&hl=en-US&gl=US&ceid=US:en",
          include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://zenn.dev/topics/llama/feed", include=LLM_MODEL_TERMS),
+     rss("https://zenn.dev/topics/qwen/feed", include=LLM_MODEL_TERMS),
+     rss("https://zenn.dev/topics/gemma/feed", include=LLM_MODEL_TERMS),
+     rss("https://zenn.dev/topics/llm/feed", include=LLM_MODEL_TERMS + ["リリース", "モデル"]),
+     rss("https://mistral.ai/rss.xml", include=LLM_MODEL_TERMS + ["Mistral"]),
      rss("https://huggingface.co/blog/feed.xml", include=LLM_MODEL_TERMS + ["release", "launch"])]},
 
  {"num":"⚡","name":"ローカル最適化・量子化速報","env":"QUANT","color":COL_QUANT,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=quantization+OR+GGUF+OR+AWQ+OR+EXL2&restrict_sr=on&sort=new&limit=25",
          include=QUANT_TERMS + ["LLM", "model"]),
-     gn('"GGUF" OR "AWQ quant" OR "EXL2" OR "MXFP4" OR "bitsandbytes" OR "Marlin kernel" OR "TorchAO"',
+     gn('"GGUF" OR "AWQ quant" OR "EXL2" OR "MXFP4" OR "bitsandbytes" OR "Marlin kernel" OR "TorchAO" OR "HQQ"',
         include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     gn('"量子化" OR "推論最適化" OR "vLLM" OR "TensorRT-LLM" OR "SGLang" OR "speculative decoding"',
+     gn('"量子化" OR "推論最適化" OR "vLLM" OR "TensorRT-LLM" OR "SGLang" OR "投機的デコード" OR "推論高速化"',
         include=QUANT_TERMS + ["LLM"], exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     rss("https://news.google.com/rss/search?q=%22vLLM%22%20OR%20%22SGLang%22%20OR%20%22TensorRT-LLM%22%20OR%20%22MLX%22%20OR%20%22quantization%22&hl=en-US&gl=US&ceid=US:en",
+     rss("https://news.google.com/rss/search?q=%22vLLM%22%20OR%20%22SGLang%22%20OR%20%22TensorRT-LLM%22%20OR%20%22MLX%22%20OR%20%22quantization%22%20OR%20%22GGUF%22&hl=en-US&gl=US&ceid=US:en",
          include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://zenn.dev/topics/gguf/feed", include=QUANT_TERMS + ["LLM"]),
+     rss("https://zenn.dev/topics/llm/feed", include=QUANT_TERMS),
+     rss("https://zenn.dev/topics/ai/feed", include=QUANT_TERMS),
      rss("https://huggingface.co/blog/feed.xml", include=QUANT_TERMS + ["inference"])]},
 
  {"num":"👁️","name":"ローカルvlm・マルチモーダル速報","env":"VLM","color":COL_VLM,"sources":[
@@ -140,11 +155,14 @@ TOPICS = [
          include=VLM_TERMS),
      gn('"Qwen2.5-VL" OR "Qwen2-VL" OR "InternVL" OR Molmo OR "Llama 3.2 Vision" OR Pixtral OR "MiniCPM-V" OR LLaVA',
         include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     gn('"マルチモーダル" OR "画像理解AI" OR "vision-language" OR "VLM"',
+     gn('"マルチモーダル" OR "画像理解AI" OR "vision-language" OR "動画理解"',
         include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     rss("https://news.google.com/rss/search?q=%22vision%20language%20model%22%20OR%20%22VLM%22%20OR%20%22multimodal%20LLM%22&hl=en-US&gl=US&ceid=US:en",
+     rss("https://news.google.com/rss/search?q=%22vision%20language%20model%22%20OR%20%22VLM%22%20OR%20%22multimodal%20LLM%22%20OR%20%22Qwen-VL%22%20OR%20%22InternVL%22&hl=en-US&gl=US&ceid=US:en",
          include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     rss("https://huggingface.co/blog/feed.xml", include=VLM_TERMS + ["vision"])]},
+     rss("https://zenn.dev/topics/vlm/feed", include=VLM_TERMS),
+     rss("https://zenn.dev/topics/ai/feed", include=VLM_TERMS + ["vision", "VLM", "マルチモーダル"]),
+     rss("https://zenn.dev/topics/llm/feed", include=VLM_TERMS + ["vision", "マルチモーダル"]),
+     rss("https://huggingface.co/blog/feed.xml", include=VLM_TERMS + ["vision", "multimodal"])]},
 
  {"num":"🎤","name":"ローカルstt・音声認識速報","env":"STT","color":COL_STT,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=Whisper+OR+transcription+OR+speech&restrict_sr=on&sort=new&limit=20",
@@ -155,6 +173,8 @@ TOPICS = [
         include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://news.google.com/rss/search?q=Whisper%20OR%20%22speech%20recognition%22%20OR%20%22faster-whisper%22%20OR%20%22Parakeet%22&hl=en-US&gl=US&ceid=US:en",
          include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://zenn.dev/topics/whisper/feed", include=STT_TERMS),
+     rss("https://zenn.dev/topics/ai/feed", include=STT_TERMS + ["音声", "STT", "文字起こし"]),
      rss("https://huggingface.co/blog/feed.xml", include=STT_TERMS + ["audio", "speech"])]},
 ]
 
