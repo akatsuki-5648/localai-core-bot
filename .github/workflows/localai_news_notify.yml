@@ -1,0 +1,62 @@
+name: AIラボ ローカルAI (Core: LLM/Model/Quant/VLM/STT)
+
+on:
+  schedule:
+    # ★2026-09-15 新設。ailab-news-bot(7,22,37,52)/ic_club_notify(5,35)/notify(*/30)と分刻みが重複しないように配置。
+    - cron: "3,18,33,48 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  # ★別リポなのでpush衝突は発生しないが、同リポ内の重複起動を止めるためgroup指定。
+  group: localai-core-bot-repo-write
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # ★concurrencyで順番待ちしている間に前のrunがseenをcommitすると、待たされたrunが古いSHAをcheckout=seenが巻き戻る。
+          #   ref: main で【実行時点のブランチ先端】を取ってズレを止める。
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # ★argostranslateモデル(en->ja)をキャッシュ。初回のみ取得。外部翻訳APIは一切叩かない。
+      - name: Cache argostranslate model
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.local/share/argos-translate
+            ~/.local/cache/argos-translate
+          key: argos-en-ja-v1
+
+      - name: Install dependencies
+        run: pip install feedparser argostranslate
+
+      - name: Run AIラボ ローカルAI (Core: LLM/Model/Quant/VLM/STT)
+        env:
+          DISCORD_LOCALAI_WEBHOOK_LLM_FW: ${{ secrets.DISCORD_LOCALAI_WEBHOOK_LLM_FW }}
+          DISCORD_LOCALAI_WEBHOOK_LLM_MODEL: ${{ secrets.DISCORD_LOCALAI_WEBHOOK_LLM_MODEL }}
+          DISCORD_LOCALAI_WEBHOOK_QUANT: ${{ secrets.DISCORD_LOCALAI_WEBHOOK_QUANT }}
+          DISCORD_LOCALAI_WEBHOOK_VLM: ${{ secrets.DISCORD_LOCALAI_WEBHOOK_VLM }}
+          DISCORD_LOCALAI_WEBHOOK_STT: ${{ secrets.DISCORD_LOCALAI_WEBHOOK_STT }}
+        run: python localai_news_bot.py
+
+      - name: Commit and push localai_core_seen_urls.json
+        run: |
+          git config user.name "localai-news-bot"
+          git config user.email "izumoitachi@gmail.com"
+          if [ -f localai_core_seen_urls.json ]; then
+            git add localai_core_seen_urls.json
+            git diff --cached --quiet || git commit -m "chore: update localai_core_seen_urls.json $(date -u +%FT%TZ)"
+            git push
+          fi
