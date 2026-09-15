@@ -111,7 +111,15 @@ STT_TERMS = ["OpenAI Whisper", "whisper.cpp", "faster-whisper", "WhisperX", "dis
              "Reverb.ai", "SenseVoice", "音声認識", "speech recognition", "STT",
              "speech-to-text", "文字起こし", "transcription AI", "VAD model", "voice activity"]
 STT_EXCLUDE = ["買収", "訴訟", "Alexa", "Google Home", "Yacht WHISPER", "Yacht Whisper",
-               "Parakeets, male", "Parakeets bird"]
+               "Parakeets, male", "Parakeets bird", "Yacht", "Monaco",
+               # ★2026-09-15 実測ノイズ: NLサッカー/映画/イベント誤ヒット
+               "Tottenham", "Rodrigo", "Bentancur", "Bellingham", "Spanish GP", "LiveScore",
+               "Anime News Network", "映画館", "Cinema", "Mishpacha", "Choose the Whisper",
+               "Times of India", "Jantar Mantar", "attack", "casters", "The Apothecary",
+               "The False", "cure of life", "shall whisper", "AuK", "Nano banana",
+               "Phys.org", "male or female", "love a good fight",
+               # ★船名・映画名でWhisper誤ヒット
+               "Luxury yacht", "yacht rental", "Sofascore"]
 
 TOPICS = [
  {"num":"🧠","name":"ローカルllm速報","env":"LLM_FW","color":COL_FW,"sources":[
