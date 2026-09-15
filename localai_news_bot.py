@@ -65,6 +65,10 @@ def sitemap(url, include=None, exclude=None, label=None, path_prefix=None, title
 
 LOCAL_TITLE_EXCLUDE = ["Course -", "Bootcamp", "Masterclass", "Udemy", "Coursera",
                        "Tutorial", "使ってみた", "とは?", "始め方", "初心者向け", "入門"]
+# is_release_version_noise() が参照する
+MODEL_RELEASE_TERMS = ["新モデル", "モデル公開", "オープンウェイト", "提供開始", "generally available",
+                       "open weights", "GPT", "Claude", "Gemini", "Grok", "Llama", "Qwen", "DeepSeek",
+                       "Mistral", "Gemma", "Phi", "released", "release", "launch"]
 
 COL_FW, COL_MODEL, COL_QUANT, COL_VLM, COL_STT = 0x00E5FF, 0xFFB800, 0xFF4747, 0x9C27B0, 0x2196F3
 
@@ -115,6 +119,7 @@ TOPICS = [
      rss("https://zenn.dev/topics/llm/feed", include=LLM_FW_TERMS + ["ローカル", "推論"]),
      rss("https://zenn.dev/topics/ollama/feed", include=LLM_FW_TERMS + ["LLM"]),
      rss("https://zenn.dev/topics/ai/feed", include=LLM_FW_TERMS),
+     gn('site:x.com "llama.cpp" OR "Ollama" OR "LM Studio" OR "GGUF" OR "vLLM" OR "SGLang"', include=LLM_FW_TERMS, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://huggingface.co/blog/feed.xml", include=LLM_FW_TERMS + ["inference", "agents"]),
      rss("https://ollama.com/blog/rss.xml", include=LLM_FW_TERMS + ["model", "MLX"]),
      rss("https://lmstudio.ai/rss.xml", include=LLM_FW_TERMS + ["model"])]},
@@ -134,6 +139,7 @@ TOPICS = [
      rss("https://zenn.dev/topics/gemma/feed", include=LLM_MODEL_TERMS),
      rss("https://zenn.dev/topics/llm/feed", include=LLM_MODEL_TERMS + ["リリース", "モデル"]),
      rss("https://mistral.ai/rss.xml", include=LLM_MODEL_TERMS + ["Mistral"]),
+     gn('site:x.com "Llama 4" OR "Qwen 3" OR "Gemma 3" OR "DeepSeek V3" OR "DeepSeek R1" OR "Phi-4" OR "Command R"', include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://huggingface.co/blog/feed.xml", include=LLM_MODEL_TERMS + ["release", "launch"])]},
 
  {"num":"⚡","name":"ローカル最適化・量子化速報","env":"QUANT","color":COL_QUANT,"sources":[
@@ -148,6 +154,7 @@ TOPICS = [
      rss("https://zenn.dev/topics/gguf/feed", include=QUANT_TERMS + ["LLM"]),
      rss("https://zenn.dev/topics/llm/feed", include=QUANT_TERMS),
      rss("https://zenn.dev/topics/ai/feed", include=QUANT_TERMS),
+     gn('site:x.com "GGUF" OR "quantization" OR "EXL2" OR "AWQ" OR "MXFP4" OR "vLLM"', include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://huggingface.co/blog/feed.xml", include=QUANT_TERMS + ["inference"])]},
 
  {"num":"👁️","name":"ローカルvlm・マルチモーダル速報","env":"VLM","color":COL_VLM,"sources":[
@@ -162,6 +169,7 @@ TOPICS = [
      rss("https://zenn.dev/topics/vlm/feed", include=VLM_TERMS),
      rss("https://zenn.dev/topics/ai/feed", include=VLM_TERMS + ["vision", "VLM", "マルチモーダル"]),
      rss("https://zenn.dev/topics/llm/feed", include=VLM_TERMS + ["vision", "マルチモーダル"]),
+     gn('site:x.com "Qwen-VL" OR "Qwen2-VL" OR "InternVL" OR "Molmo" OR "Pixtral" OR "MiniCPM-V" OR "LLaVA"', include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://huggingface.co/blog/feed.xml", include=VLM_TERMS + ["vision", "multimodal"])]},
 
  {"num":"🎤","name":"ローカルstt・音声認識速報","env":"STT","color":COL_STT,"sources":[
@@ -175,6 +183,7 @@ TOPICS = [
          include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://zenn.dev/topics/whisper/feed", include=STT_TERMS),
      rss("https://zenn.dev/topics/ai/feed", include=STT_TERMS + ["音声", "STT", "文字起こし"]),
+     gn('site:x.com "Whisper" OR "faster-whisper" OR "WhisperX" OR "Parakeet" OR "SenseVoice"', include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://huggingface.co/blog/feed.xml", include=STT_TERMS + ["audio", "speech"])]},
 ]
 
