@@ -518,6 +518,8 @@ def post(url, header, items, color):
 
 def main():
     hooks = load_webhooks(); seen = load_seen()
+    _ORDER = ['QUANT', 'VLM', 'STT', 'LLM_MODEL', 'LLM_FW']
+    globals()["TOPICS"] = sorted(TOPICS, key=lambda t: _ORDER.index(t["env"]) if t["env"] in _ORDER else 99)
     print(f"webhooks={len(hooks)} seen={len(seen)} topics={len(TOPICS)}")
     for t in TOPICS:
         url = hooks.get(t["env"])
