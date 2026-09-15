@@ -92,7 +92,13 @@ LLM_MODEL_TERMS = ["Llama", "Qwen", "Gemma", "Mistral", "Mixtral", "DeepSeek", "
                    "Hugging Face"]
 LLM_MODEL_EXCLUDE = ["攻撃", "マルウェア", "脆弱性", "訴訟", "iPhone", "Snapdragon", "スマートフォン",
                     "株価", "決算", "投資", "銘柄", "NFL", "recap", "Falcons -", "Falcon Peak",
-                    "Wizard review", "Falcon 9", "SpaceX", "War Wizard"]
+                    "Wizard review", "Falcon 9", "SpaceX", "War Wizard",
+                    # ★2026-09-15 実測ノイズ: 車のカスタム"モデル"誤ヒット
+                    "トヨタ", "ホンダ", "日産", "スバル", "マツダ", "スズキ",
+                    "ルーミー", "GRパーツ", "GRヤリス", "カスタムモデル", "スポーティ",
+                    "徳井義実", "愛車", "改良モデル", "カスタムカー", "くるまのニュース",
+                    "MotorTrend", "Motor Fan", "goo-net", "福井新聞",
+                    "Dragonlance", "GamingTrend"]
 QUANT_TERMS = ["GGUF", "EXL2", "EXL3", "AWQ", "GPTQ", "MXFP4", "INT8 quant", "INT4 quant",
                "bitsandbytes", "Marlin", "TensorRT-LLM", "MLX", "SGLang", "DeepSpeed",
                "TorchAO", "HQQ", "量子化", "quantiz", "推論最適化", "inference optimization",
