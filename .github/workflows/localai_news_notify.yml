@@ -1,4 +1,4 @@
-name: AIラボ ローカルAI (Core: LLM/Model/Quant/VLM/STT)
+name: AIラボ ローカルAI Core (LLM Model Quant VLM STT)
 
 on:
   schedule:
@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: pip install feedparser argostranslate
 
-      - name: Run AIラボ ローカルAI (Core: LLM/Model/Quant/VLM/STT)
+      - name: Run AIラボ ローカルAI Core (LLM Model Quant VLM STT)
         env:
           DISCORD_LOCALAI_WEBHOOK_LLM_FW: ${{ secrets.DISCORD_LOCALAI_WEBHOOK_LLM_FW }}
           DISCORD_LOCALAI_WEBHOOK_LLM_MODEL: ${{ secrets.DISCORD_LOCALAI_WEBHOOK_LLM_MODEL }}
