@@ -111,7 +111,11 @@ VLM_TERMS = ["Qwen-VL", "Qwen2-VL", "Qwen2.5-VL", "InternVL", "Molmo", "Llama-Vi
              "DeepSeek-VL", "Ovis", "Aria multimodal", "Idefics", "LLaVA", "CogVLM", "Kosmos",
              "vision language model", "VLM", "multimodal LLM", "マルチモーダル", "画像理解",
              "vision model", "Cambrian", "OmniVLM", "動画理解"]
-VLM_EXCLUDE = ["株価", "決算", "投資"]
+VLM_EXCLUDE = ["株価", "決算", "投資",
+               # ★2026-09-16 CDP実測ノイズ: 医療系マルチモーダル誤ヒット
+               "多発性骨髄腫", "骨髄腫", "生存予測", "予後予測", "予測モデル",
+               "東大と理研", "医療研究", "臨床", "疾患予測", "腫瘍", "がん治療",
+               "医療画像", "動的マルチモーダル生存"]
 STT_TERMS = ["OpenAI Whisper", "whisper.cpp", "faster-whisper", "WhisperX", "distil-whisper",
              "NeMo Parakeet", "NeMo Canary", "Silero VAD", "Vosk speech", "Reverb ASR",
              "Reverb.ai", "SenseVoice", "音声認識", "speech recognition", "STT",
@@ -123,6 +127,10 @@ STT_EXCLUDE = ["買収", "訴訟", "Alexa", "Google Home", "Yacht WHISPER", "Yac
                "Anime News Network", "映画館", "Cinema", "Mishpacha", "Choose the Whisper",
                "Times of India", "Jantar Mantar", "attack", "casters", "The Apothecary",
                "The False", "cure of life", "shall whisper", "AuK", "Nano banana",
+               # ★2026-09-16 CDP実測ノイズ: クラウド音声認識サービス広告/法人系
+               "RECAIUS", "global.toshiba", "ボイストリガー",
+               "音声認識ミドルウェア", "カスハラ", "コールセンター",
+               "対策義務化", "オンデマンド配信", "イザ！",
                "Phys.org", "male or female", "love a good fight",
                # ★船名・映画名でWhisper誤ヒット
                "Luxury yacht", "yacht rental", "Sofascore"]
