@@ -25,3 +25,5 @@ LLM_FW / LLM_MODEL / QUANT / VLM / STT
 - 外部翻訳APIを実行時に叩かない (`argostranslate` runner内ローカル推論)
 - 公式RSS/API/changelog は補助 (主水路は Google News検索RSS + subreddit)
 - FRESH_HOURS=48 の時間窓、PER_SOURCE=3、PER_CHANNEL=4 で速報化
+
+_Trigger reactivation: 2026-09-15_
