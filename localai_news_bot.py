@@ -133,7 +133,15 @@ STT_EXCLUDE = ["買収", "訴訟", "Alexa", "Google Home", "Yacht WHISPER", "Yac
                "対策義務化", "オンデマンド配信", "イザ！",
                "Phys.org", "male or female", "love a good fight",
                # ★船名・映画名でWhisper誤ヒット
-               "Luxury yacht", "yacht rental", "Sofascore"]
+               "Luxury yacht", "yacht rental", "Sofascore",
+               # ★2026-09-16 -/+実測で残ったノイズ: 局所ニュース/市場調査/クラウドAmiVoice
+               "岐阜名鉄タクシー", "自動配車システム", "大山崎町議会", "字幕表示モニター",
+               "AmiVoice", "AmiVoice Cloud Platform", "トークマウス",
+               "音声認識マイクモジュール", "CAGR", "市場規模マップ", "8.1%",
+               "エプソン", "Endeavor NL3000E", "文字起こしAIアプリ標準搭載",
+               "産経ニュース", "news.nicovideo.jp",
+               "多言語案内看板", "西条", "京都府大山崎町", "外国人観光客向け", "音声ガイダンス実証実験",
+               "迷える流れ星", "マリオネットドールズ", "東京マリオネット"]
 
 TOPICS = [
  {"num":"🧠","name":"ローカルllm速報","env":"LLM_FW","color":COL_FW,"sources":[
@@ -196,7 +204,7 @@ TOPICS = [
         include=QUANT_TERMS + ["LLM"], exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://news.google.com/rss/search?q=%22vLLM%22%20OR%20%22SGLang%22%20OR%20%22TensorRT-LLM%22%20OR%20%22MLX%22%20OR%20%22quantization%22%20OR%20%22GGUF%22&hl=en-US&gl=US&ceid=US:en",
          include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     gn('site:x.com "GGUF" OR "quantization" OR "EXL2" OR "AWQ" OR "MXFP4" OR "vLLM"',
+     gn('site:x.com "GGUF" OR "quantization" OR "EXL2" OR "AWQ" OR "MXFP4" OR "vLLM" -"Astral Quantization" -Grimoire -Psytrance -HP9 -HP3 -"最短焦点距離" -"Ver. 6.0" -"HiTech Dark" -"Dj Grimoire" -Arcaea -"Hardcore Psytrance" -"7 RSR" -佗棄',
         include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://zenn.dev/topics/gguf/feed", include=QUANT_TERMS + ["LLM"]),
      rss("https://zenn.dev/topics/llm/feed", include=QUANT_TERMS),
@@ -232,7 +240,7 @@ TOPICS = [
          include=STT_TERMS),
      gn('"OpenAI Whisper" OR "whisper.cpp" OR "faster-whisper" OR WhisperX OR "distil-whisper" OR "NeMo Parakeet" OR SenseVoice',
         include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     gn('"音声認識" OR "文字起こしAI" OR "音声のテキスト化" OR "Whisper" -RECAIUS -東芝 -カスハラ -コールセンター -"対策義務化" -"オンデマンド配信" -イザ！ -Salomon -"XT-Whisper" -Habibi -Carpet -スニダン -"KEYS IN PURPLE" -激ロック -"a whisper" -映画館 -"時のオカリナ" -"Switch 2" -Gamer -AmiVoice -QuickSummary -BIZTEL -AIsmiley',
+     gn('"音声認識" OR "文字起こしAI" OR "音声のテキスト化" OR "Whisper" -RECAIUS -東芝 -カスハラ -コールセンター -"対策義務化" -"オンデマンド配信" -イザ！ -Salomon -"XT-Whisper" -Habibi -Carpet -スニダン -"KEYS IN PURPLE" -激ロック -"a whisper" -映画館 -"時のオカリナ" -"Switch 2" -Gamer -AmiVoice -QuickSummary -BIZTEL -AIsmiley -"迷える流れ星" -マリオネットドールズ -"東京マリオネット" -"音声認識マイクモジュール" -"市場規模" -CAGR -岐阜名鉄タクシー -"配車システム" -"字幕表示モニター" -大山崎町 -"多言語案内看板" -西条 -"京都府大山崎町議会" -"聴覚障害者" -BOXIL -"アプリ標準搭載" -エプソン -Endeavor',
         include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://news.google.com/rss/search?q=%22OpenAI%20Whisper%22%20OR%20%22whisper.cpp%22%20OR%20%22faster-whisper%22%20OR%20%22NeMo%20Parakeet%22%20OR%20%22SenseVoice%22&hl=en-US&gl=US&ceid=US:en",
          include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
