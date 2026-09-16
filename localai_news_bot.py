@@ -33,8 +33,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SEEN_FILE = os.path.join(HERE, "localai_core_seen_urls.json")
 WEBHOOKS_JSON = os.path.join(HERE, "localai_core_webhooks.json")
 PER_SOURCE = 3        # ★速報化: 1ソースから拾う上限
-PER_CHANNEL = 4       # ★速報化: 1chの1回あたり投稿上限
-FRESH_HOURS = 48      # ★速報化: 直近48hの記事だけを速報として拾う(窓外の古い既出は対象外)
+PER_CHANNEL = 6       # ★2026-09-16 盛々: 4→6(1chの1回あたり投稿上限を上げる)
+FRESH_HOURS = 72      # ★2026-09-16 盛々: 48→72(時間窓を広げる・情報量アップ)
 NOW = time.time()     # 実行開始時刻(UTC epoch)。時間窓判定の基準
 UA = "LocalAiBot/1.0 (+https://discord.com)"
 COL_BIZ, COL_FIELD, COL_SUM = 0x00E5FF, 0x00FF9C, 0xFF7A1A
@@ -156,7 +156,11 @@ TOPICS = [
      rss("https://github.com/ggerganov/llama.cpp/releases.atom", include=LLM_FW_TERMS + ["cuda", "metal", "backend", "kernel"]),
      rss("https://github.com/ollama/ollama/releases.atom", include=LLM_FW_TERMS + ["model", "support"]),
      rss("https://github.com/vllm-project/vllm/releases.atom", include=LLM_FW_TERMS + ["performance", "improve"]),
-     rss("https://rss.itmedia.co.jp/rss/2.0/aiplus.xml", include=LLM_FW_TERMS)]},
+     rss("https://rss.itmedia.co.jp/rss/2.0/aiplus.xml", include=LLM_FW_TERMS),
+     # ★2026-09-16 盛々: 日本語タグ追加(実測 fresh 3-4件・強い)
+     rss("https://qiita.com/tags/ollama/feed", include=LLM_FW_TERMS + ["Ollama", "LLM"]),
+     rss("https://zenn.dev/topics/ollama/feed", include=LLM_FW_TERMS + ["Ollama"]),
+     rss("https://zenn.dev/topics/vllm/feed", include=LLM_FW_TERMS + ["vLLM", "推論"])]},
 
  {"num":"🚀","name":"ローカルllmモデル速報","env":"LLM_MODEL","color":COL_MODEL,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/hot/.rss?limit=30", include=LLM_MODEL_TERMS + ["Hugging Face", "release"]),
@@ -178,7 +182,10 @@ TOPICS = [
      rss("https://mistral.ai/rss.xml", include=LLM_MODEL_TERMS + ["Mistral"]),
      rss("https://huggingface.co/blog/feed.xml", include=LLM_MODEL_TERMS + ["release", "launch"]),
      rss("https://deepmind.google/blog/rss.xml", include=LLM_MODEL_TERMS),
-     rss("https://rss.itmedia.co.jp/rss/2.0/aiplus.xml", include=LLM_MODEL_TERMS)]},
+     rss("https://rss.itmedia.co.jp/rss/2.0/aiplus.xml", include=LLM_MODEL_TERMS),
+     # ★2026-09-16 盛々: Qiita LLM(fresh4/pass2) + Zenn qwen(fresh6/pass5・強い)
+     rss("https://qiita.com/tags/llm/feed", include=LLM_MODEL_TERMS + ["LLM", "モデル"]),
+     rss("https://qiita.com/tags/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92/feed", include=LLM_MODEL_TERMS + ["LLM", "モデル"])]},
 
  {"num":"⚡","name":"ローカル最適化・量子化速報","env":"QUANT","color":COL_QUANT,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=quantization+OR+GGUF+OR+AWQ+OR+EXL2&restrict_sr=on&sort=new&limit=25",
@@ -197,7 +204,9 @@ TOPICS = [
      rss("https://zenn.dev/topics/machinelearning/feed", include=QUANT_TERMS),
      rss("https://huggingface.co/blog/feed.xml", include=QUANT_TERMS + ["inference"]),
      rss("https://github.com/vllm-project/vllm/releases.atom", include=QUANT_TERMS + ["performance"]),
-     rss("https://www.together.ai/blog/rss.xml", include=QUANT_TERMS)]},
+     rss("https://www.together.ai/blog/rss.xml", include=QUANT_TERMS),
+     # ★2026-09-16 盛々: Qiita llama.cpp(実測fresh2/pass1)
+     rss("https://qiita.com/tags/llama.cpp/feed", include=QUANT_TERMS + ["llama.cpp", "GGUF"])]},
 
  {"num":"👁️","name":"ローカルvlm・マルチモーダル速報","env":"VLM","color":COL_VLM,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=VLM+OR+vision+OR+multimodal&restrict_sr=on&sort=new&limit=25",
@@ -233,7 +242,11 @@ TOPICS = [
      rss("https://zenn.dev/topics/ai/feed", include=STT_TERMS + ["音声", "STT", "文字起こし"]),
      rss("https://huggingface.co/blog/feed.xml", include=STT_TERMS + ["audio", "speech"]),
      rss("https://export.arxiv.org/rss/eess.AS", include=STT_TERMS),
-     rss("https://github.com/openai/whisper/releases.atom", include=STT_TERMS + ["update", "model"])]},
+     rss("https://github.com/openai/whisper/releases.atom", include=STT_TERMS + ["update", "model"]),
+     # ★2026-09-16 盛々: 日本語ソース追加(Qiita/Zenn音声認識・実測 fresh 2-4件・低頻度だが良質)
+     rss("https://qiita.com/tags/%E9%9F%B3%E5%A3%B0%E8%AA%8D%E8%AD%98/feed", include=STT_TERMS + ["Whisper", "音声"]),
+     rss("https://qiita.com/tags/whisper/feed", include=STT_TERMS + ["Whisper", "文字起こし"]),
+     rss("https://zenn.dev/topics/%E9%9F%B3%E5%A3%B0%E8%AA%8D%E8%AD%98/feed", include=STT_TERMS + ["Whisper", "音声"])]},
 ]
 
 def gn_url(q):
