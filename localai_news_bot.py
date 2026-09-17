@@ -98,7 +98,10 @@ LLM_MODEL_EXCLUDE = ["攻撃", "マルウェア", "脆弱性", "訴訟", "iPhone
                     "ルーミー", "GRパーツ", "GRヤリス", "カスタムモデル", "スポーティ",
                     "徳井義実", "愛車", "改良モデル", "カスタムカー", "くるまのニュース",
                     "MotorTrend", "Motor Fan", "goo-net", "福井新聞",
-                    "Dragonlance", "GamingTrend"]
+                    "Dragonlance", "GamingTrend",
+                    # ★2026-09-17 CDP実測ノイズ: テニス試合誤ヒット
+                    "テニステンプル", "ラサロ・ガルシア", "ミンテギ", "バレンシア 2026",
+                    "テニス", "デル・オルモ"]
 QUANT_TERMS = ["GGUF", "EXL2", "EXL3", "AWQ", "GPTQ", "MXFP4", "INT8 quant", "INT4 quant",
                "bitsandbytes", "Marlin", "TensorRT-LLM", "MLX", "SGLang", "DeepSpeed",
                "TorchAO", "HQQ", "量子化", "quantiz", "推論最適化", "inference optimization",
@@ -176,7 +179,7 @@ TOPICS = [
         include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      gn('"Nous Hermes" OR "Nous Research" OR "Dolphin 3" OR "WizardLM" OR "Magnum-v" OR "MythoMax-L2" OR "Yi-34B" OR "Yi-6B" OR "Yi-1.5" OR "GLM-4" OR "GLM-5" OR InternLM OR "Falcon LLM" OR OLMo',
         include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
-     gn('"新モデル公開" OR "オープンウェイト" OR "モデル提供開始" OR "重み公開" OR "モデル公開" -トヨタ -ホンダ -日産 -スバル -マツダ -スズキ -ルーミー -GRパーツ -愛車 -カスタムカー -くるまのニュース -"Motor Fan" -福井新聞 -徳井義実 -レクサス',
+     gn('"新モデル公開" OR "オープンウェイト" OR "モデル提供開始" OR "重み公開" OR "モデル公開" -トヨタ -ホンダ -日産 -スバル -マツダ -スズキ -ルーミー -GRパーツ -愛車 -カスタムカー -くるまのニュース -"Motor Fan" -福井新聞 -徳井義実 -レクサス -テニステンプル -"ラサロ・ガルシア" -ミンテギ -"バレンシア 2026" -テニス -"デル・オルモ"',
         include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://news.google.com/rss/search?q=%22open%20weights%22%20OR%20%22weights%20released%22%20OR%20%22available%20on%20Hugging%20Face%22%20OR%20%22released%20on%20HF%22%20OR%20%22HuggingFace%20release%22&hl=en-US&gl=US&ceid=US:en",
          include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
