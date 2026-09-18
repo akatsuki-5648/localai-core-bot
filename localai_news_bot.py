@@ -106,7 +106,9 @@ LLM_MODEL_EXCLUDE = ["攻撃", "マルウェア", "脆弱性", "訴訟", "iPhone
                     "カップ重量", "メルボルンとカーフィールド", "カーフィールドカップ",
                     "Racing.com", "リリースされた重量", "重量リリース",
                     # ★2026-09-18 v5 CDP実測ノイズ: 弁護士事務所"IPO加速"
-                    "Cooley", "IPO作業を加速"]
+                    "Cooley", "IPO作業を加速",
+                    # ★2026-09-19 CDP実測ノイズ: 競馬"重量リリース"(フィルタは英語原文に掛かるので英語で除外)
+                    "Horse Racing", "Melbourne Cup"]
 QUANT_TERMS = ["GGUF", "EXL2", "EXL3", "AWQ", "GPTQ", "MXFP4", "INT8 quant", "INT4 quant",
                "bitsandbytes", "Marlin", "TensorRT-LLM", "MLX", "SGLang", "DeepSpeed",
                "TorchAO", "HQQ", "量子化", "quantiz", "推論最適化", "inference optimization",
@@ -164,6 +166,22 @@ STT_EXCLUDE = ["買収", "訴訟", "Alexa", "Google Home", "Yacht WHISPER", "Yac
                "ブルアカ", "ファレイドリア", "ライブターンバトル", "メイツ",
                "TGS2026", "3Dで繰り広げられる"]
 
+# ★2026-09-19 v7: 激裏(自分/ニュース・情報源 取得ルート.md PART3/112/115/121/122)由来ソース専用の【強い】絞り込み。
+#   一般テック媒体・arXivは include がOR判定のため released/launch/AI/multimodal 等の一般語で無関係な記事が混ざる(実測)。
+#   固有名詞・題名に語があるものだけを通す。"^"は語頭が単語の境界のときだけ当てる(exp-LORA-tion, TTSR 等の途中一致を防ぐ)。
+LLM_FW_STRICT = [t for t in LLM_FW_TERMS if t not in ("ローカル環境", "ローカルで動", "セルフホスト", "self-host", "オンプレ", "推論エンジン", "inference")]
+LLM_MODEL_STRICT = [t for t in LLM_MODEL_TERMS if t.lower() not in ("released", "launch")]
+ARXIV_LLMISH = ["LLM", "language model", "large language", "Llama", "Qwen", "Mistral", "Gemma", "DeepSeek"]
+ARXIV_TITLE_EXCLUDE = LOCAL_TITLE_EXCLUDE + ["cancer", "clinical", "medical", "patient", "diagnos", "radiolog", "pathology",
+                                             "federated", "wireless", "vehicle", "tomography"]
+MODEL_TITLE = ["Llama", "Qwen", "Gemma", "Mistral", "Mixtral", "DeepSeek", "^Phi-", "Nemotron", "^GLM-", "InternLM", "OLMo",
+               "^Kimi", "MiniMax", "DBRX", "open-weight", "open weights", "Technical Report"]
+QUANT_TITLE = ["quantiz", "quantis", "KV cache", "KV-cache", "speculative decod", "low-bit", "ternary", "weight-only",
+               "bit-width", "4-bit", "8-bit", "2-bit", "1-bit", "GGUF", "LLM serving", "LLM inference", "model compression"]
+VLM_TITLE = ["vision-language", "vision language", "^VLM", "MLLM", "LVLM", "video-language", "multimodal large language", "multimodal LLM"]
+STT_TITLE = ["speech recognition", "^ASR", "speech-to-text", "transcription", "Whisper", "speech translation",
+             "spoken language", "speech-to-speech"]
+
 TOPICS = [
  {"num":"🧠","name":"ローカルllm速報","env":"LLM_FW","color":COL_FW,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/hot/.rss?limit=25", include=LLM_FW_TERMS + ["LLM", "model"]),
@@ -197,7 +215,16 @@ TOPICS = [
      rss("https://aismiley.co.jp/ai_news/feed/", include=LLM_FW_TERMS + ["LLM", "モデル", "ローカル"]),
      # ★2026-09-19 v6: GN LocalLLM検索(★3/24h・168h=9件)
      rss("https://news.google.com/rss/search?q=%22local+LLM%22+OR+%22Ollama%22+OR+%22LM+Studio%22+OR+%22llama.cpp%22&hl=en-US&gl=US&ceid=US:en",
-         include=LLM_FW_TERMS, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
+         include=LLM_FW_TERMS, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★2026-09-19 v7 激裏由来(PART3/112/115・実測: PC Watch 24h=2「LM Studio Bionic」/ Qiita人気 72h=1・強い絞り込み)
+     rss("https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf", include=LLM_FW_STRICT, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://qiita.com/popular-items/feed", include=LLM_FW_STRICT, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://www.publickey1.jp/atom.xml", include=LLM_FW_STRICT, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://codezine.jp/rss/new/20/index.xml", include=LLM_FW_STRICT, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://gigazine.net/news/rss_2.0/", include=LLM_FW_STRICT, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://zenn.dev/feed", include=LLM_FW_STRICT, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://lobste.rs/rss", include=LLM_FW_STRICT, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://hnrss.org/frontpage", include=LLM_FW_STRICT, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
 
  {"num":"🚀","name":"ローカルllmモデル速報","env":"LLM_MODEL","color":COL_MODEL,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/hot/.rss?limit=30", include=LLM_MODEL_TERMS + ["Hugging Face", "release"]),
@@ -231,7 +258,19 @@ TOPICS = [
      rss("https://aismiley.co.jp/ai_news/feed/", include=LLM_MODEL_TERMS + ["モデル", "リリース", "公開"]),
      # ★2026-09-19 v6: GN LLMモデルリリース(★168h=8件)
      rss("https://news.google.com/rss/search?q=%22new+LLM%22+OR+%22model+release%22+OR+%22open+weights%22+OR+%22Hugging+Face+release%22&hl=en-US&gl=US&ceid=US:en",
-         include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
+         include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★2026-09-19 v7 激裏由来(PART3/112/122・実測: GIGAZINE 24h=3「Qwen3.8-Omni-Flash」/ PC Watch「Bonsai 2 27B」/ CodeZine「DeepSeek-V4.1-Flash」・強い絞り込み)
+     rss("https://gigazine.net/news/rss_2.0/", include=LLM_MODEL_STRICT, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf", include=LLM_MODEL_STRICT, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://codezine.jp/rss/new/20/index.xml", include=LLM_MODEL_STRICT, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://www.publickey1.jp/atom.xml", include=LLM_MODEL_STRICT, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://tildes.net/~tech/topics.atom", include=LLM_MODEL_STRICT, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://lobste.rs/rss", include=LLM_MODEL_STRICT, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://hnrss.org/frontpage", include=LLM_MODEL_STRICT, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★arXiv(激裏PART122 cs.CL/cs.LG/cs.AI)は【題名にモデル名】がある論文だけ(実測: DeepSeek-V4.1-Flash / dQwen3.5)
+     rss("https://export.arxiv.org/rss/cs.CL", label="arXiv cs.CL", include=ARXIV_LLMISH, title_include=MODEL_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.LG", label="arXiv cs.LG", include=ARXIV_LLMISH, title_include=MODEL_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.AI", label="arXiv cs.AI", include=ARXIV_LLMISH, title_include=MODEL_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE)]},
 
  {"num":"⚡","name":"ローカル最適化・量子化速報","env":"QUANT","color":COL_QUANT,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=quantization+OR+GGUF+OR+AWQ+OR+EXL2&restrict_sr=on&sort=new&limit=25",
@@ -260,7 +299,15 @@ TOPICS = [
      rss("https://www.marktechpost.com/feed/", include=QUANT_TERMS + ["quantization", "inference"]),
      # ★2026-09-19 v6: GN vLLM/SGLang検索
      rss("https://news.google.com/rss/search?q=vLLM+OR+SGLang+OR+llama.cpp+OR+%22TensorRT-LLM%22&hl=en-US&gl=US&ceid=US:en",
-         include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
+         include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★2026-09-19 v7 激裏由来(PART3/112/122・実測: PC Watch 24h=1 / arXiv 題名絞りで KV cache量子化・speculative decoding 等が24h=7)
+     rss("https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf", include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://www.publickey1.jp/atom.xml", include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://lobste.rs/rss", include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://hnrss.org/frontpage", include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.CL", label="arXiv cs.CL", include=ARXIV_LLMISH, title_include=QUANT_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.LG", label="arXiv cs.LG", include=ARXIV_LLMISH, title_include=QUANT_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.AI", label="arXiv cs.AI", include=ARXIV_LLMISH, title_include=QUANT_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE)]},
 
  {"num":"👁️","name":"ローカルvlm・マルチモーダル速報","env":"VLM","color":COL_VLM,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=VLM+OR+vision+OR+multimodal&restrict_sr=on&sort=new&limit=25",
@@ -293,7 +340,13 @@ TOPICS = [
      rss("https://export.arxiv.org/rss/cs.MM", include=VLM_TERMS + ["vision", "multimodal", "video-language"]),
      # ★2026-09-19 v6: GN VLM検索
      rss("https://news.google.com/rss/search?q=%22vision+language+model%22+OR+%22SmolVLM%22+OR+%22InternVL%22+OR+%22Qwen-VL%22&hl=en-US&gl=US&ceid=US:en",
-         include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
+         include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★2026-09-19 v7 激裏由来(PART112/122・実測: PC Watch 24h=1 / arXiv は題名に vision-language 等がある論文だけ・"multimodal"単独は医療/自動車が混ざるので使わない)
+     rss("https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf", include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://gigazine.net/news/rss_2.0/", include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.CL", label="arXiv cs.CL", title_include=VLM_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.LG", label="arXiv cs.LG", title_include=VLM_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.AI", label="arXiv cs.AI", title_include=VLM_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE)]},
 
  {"num":"🎤","name":"ローカルstt・音声認識速報","env":"STT","color":COL_STT,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=Whisper+OR+transcription+OR+speech&restrict_sr=on&sort=new&limit=20",
@@ -325,7 +378,11 @@ TOPICS = [
      rss("https://qiita.com/tags/asr/feed", include=STT_TERMS + ["ASR", "音声認識"]),
      # ★STT用GN検索(exclude既存で強い)
      rss("https://news.google.com/rss/search?q=%22Whisper+model%22+OR+%22faster-whisper%22+OR+%22Deepgram%22+OR+%22Kyutai+STT%22+OR+%22Moonshine+ASR%22&hl=en-US&gl=US&ceid=US:en",
-         include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
+         include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★2026-09-19 v7 激裏由来(PART122 arXiv cs.CL/cs.LG/cs.AI・実測: 題名に speech recognition/ASR がある論文が24h=6・STT 5件→増強)
+     rss("https://export.arxiv.org/rss/cs.CL", label="arXiv cs.CL", title_include=STT_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.LG", label="arXiv cs.LG", title_include=STT_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE),
+     rss("https://export.arxiv.org/rss/cs.AI", label="arXiv cs.AI", title_include=STT_TITLE, title_exclude=ARXIV_TITLE_EXCLUDE)]},
 ]
 
 def gn_url(q):
@@ -354,6 +411,11 @@ def contains_any(text, terms):
         needle = str(term).lower()
         if not needle:
             continue
+        # 先頭"^"の語は語頭が単語の境界のときだけ当てる(語の途中に埋もれた一致による混入を防ぐ)
+        if needle.startswith("^"):
+            if re.search(r"(?<![a-z0-9])" + re.escape(needle[1:]), low):
+                return True
+            continue
         if len(needle) <= 2 and needle.isascii() and needle.isalnum():
             if re.search(rf"(?<![a-z0-9]){re.escape(needle)}(?![a-z0-9])", low):
                 return True
@@ -367,7 +429,7 @@ def is_release_version_noise(title):
     low = t.lower()
     if any(x.lower() in low for x in MODEL_RELEASE_TERMS + ["codex", "claude", "gemini", "grok", "llama", "qwen", "deepseek"]):
         return False
-    return bool(re.fullmatch(r"v?\d+(\.\d+){1,4}([._-]?(alpha|beta|rc)\.?\d*)?", low) or low in {"stable", "nightly"})
+    return bool(re.fullmatch(r"([a-z]+-)?v?\d+(\.\d+){1,4}([._-]?(alpha|beta|rc)[.\d]*)?|b\d{3,6}", low) or low in {"stable", "nightly"})
 
 def canonical_title(title):
     t = re.sub(r"\s+-\s+[^|]+(?:\s+\|.*)?$", "", title or "")
