@@ -101,7 +101,12 @@ LLM_MODEL_EXCLUDE = ["攻撃", "マルウェア", "脆弱性", "訴訟", "iPhone
                     "Dragonlance", "GamingTrend",
                     # ★2026-09-17 CDP実測ノイズ: テニス試合誤ヒット
                     "テニステンプル", "ラサロ・ガルシア", "ミンテギ", "バレンシア 2026",
-                    "テニス", "デル・オルモ"]
+                    "テニス", "デル・オルモ",
+                    # ★2026-09-18 v5 CDP実測ノイズ: 競馬"リリースされた重量"("release"に反応)
+                    "カップ重量", "メルボルンとカーフィールド", "カーフィールドカップ",
+                    "Racing.com", "リリースされた重量", "重量リリース",
+                    # ★2026-09-18 v5 CDP実測ノイズ: 弁護士事務所"IPO加速"
+                    "Cooley", "IPO作業を加速"]
 QUANT_TERMS = ["GGUF", "EXL2", "EXL3", "AWQ", "GPTQ", "MXFP4", "INT8 quant", "INT4 quant",
                "bitsandbytes", "Marlin", "TensorRT-LLM", "MLX", "SGLang", "DeepSpeed",
                "TorchAO", "HQQ", "量子化", "quantiz", "推論最適化", "inference optimization",
@@ -154,7 +159,10 @@ STT_EXCLUDE = ["買収", "訴訟", "Alexa", "Google Home", "Yacht WHISPER", "Yac
                "エプソン", "Endeavor NL3000E", "文字起こしAIアプリ標準搭載",
                "産経ニュース", "news.nicovideo.jp",
                "多言語案内看板", "西条", "京都府大山崎町", "外国人観光客向け", "音声ガイダンス実証実験",
-               "迷える流れ星", "マリオネットドールズ", "東京マリオネット"]
+               "迷える流れ星", "マリオネットドールズ", "東京マリオネット",
+               # ★2026-09-18 v5 CDP実測ノイズ: ゲーム"ブルアカ新作"の音声認識機能誤ヒット
+               "ブルアカ", "ファレイドリア", "ライブターンバトル", "メイツ",
+               "TGS2026", "3Dで繰り広げられる"]
 
 TOPICS = [
  {"num":"🧠","name":"ローカルllm速報","env":"LLM_FW","color":COL_FW,"sources":[
