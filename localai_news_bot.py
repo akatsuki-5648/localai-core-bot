@@ -194,7 +194,10 @@ TOPICS = [
      rss("https://openai.com/news/rss.xml", include=LLM_FW_TERMS + ["release", "model", "API"], exclude=LLM_FW_EXCLUDE),
      rss("https://www.marktechpost.com/feed/", include=LLM_FW_TERMS + ["LLM", "language model"]),
      rss("https://qiita.com/tags/llm/feed", include=LLM_FW_TERMS + ["LLM"]),
-     rss("https://aismiley.co.jp/ai_news/feed/", include=LLM_FW_TERMS + ["LLM", "モデル", "ローカル"])]},
+     rss("https://aismiley.co.jp/ai_news/feed/", include=LLM_FW_TERMS + ["LLM", "モデル", "ローカル"]),
+     # ★2026-09-19 v6: GN LocalLLM検索(★3/24h・168h=9件)
+     rss("https://news.google.com/rss/search?q=%22local+LLM%22+OR+%22Ollama%22+OR+%22LM+Studio%22+OR+%22llama.cpp%22&hl=en-US&gl=US&ceid=US:en",
+         include=LLM_FW_TERMS, exclude=LLM_FW_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
 
  {"num":"🚀","name":"ローカルllmモデル速報","env":"LLM_MODEL","color":COL_MODEL,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/hot/.rss?limit=30", include=LLM_MODEL_TERMS + ["Hugging Face", "release"]),
@@ -225,7 +228,10 @@ TOPICS = [
      rss("https://blog.google/innovation-and-ai/technology/ai/rss/", include=LLM_MODEL_TERMS + ["Gemini", "model", "release"], exclude=LLM_MODEL_EXCLUDE),
      rss("https://github.com/openai/codex/releases.atom", include=LLM_MODEL_TERMS + ["codex", "release"]),
      rss("https://www.marktechpost.com/feed/", include=LLM_MODEL_TERMS + ["model", "release", "launch"]),
-     rss("https://aismiley.co.jp/ai_news/feed/", include=LLM_MODEL_TERMS + ["モデル", "リリース", "公開"])]},
+     rss("https://aismiley.co.jp/ai_news/feed/", include=LLM_MODEL_TERMS + ["モデル", "リリース", "公開"]),
+     # ★2026-09-19 v6: GN LLMモデルリリース(★168h=8件)
+     rss("https://news.google.com/rss/search?q=%22new+LLM%22+OR+%22model+release%22+OR+%22open+weights%22+OR+%22Hugging+Face+release%22&hl=en-US&gl=US&ceid=US:en",
+         include=LLM_MODEL_TERMS, exclude=LLM_MODEL_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
 
  {"num":"⚡","name":"ローカル最適化・量子化速報","env":"QUANT","color":COL_QUANT,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=quantization+OR+GGUF+OR+AWQ+OR+EXL2&restrict_sr=on&sort=new&limit=25",
@@ -251,7 +257,10 @@ TOPICS = [
      # ★2026-09-16 盛々: Qiita llama.cpp(実測fresh2/pass1)
      rss("https://qiita.com/tags/llama.cpp/feed", include=QUANT_TERMS + ["llama.cpp", "GGUF"]),
      # ★2026-09-18 v5: 中途半端追加を削除、★実測でfresh確認できた MarkTechPost だけ残す
-     rss("https://www.marktechpost.com/feed/", include=QUANT_TERMS + ["quantization", "inference"])]},
+     rss("https://www.marktechpost.com/feed/", include=QUANT_TERMS + ["quantization", "inference"]),
+     # ★2026-09-19 v6: GN vLLM/SGLang検索
+     rss("https://news.google.com/rss/search?q=vLLM+OR+SGLang+OR+llama.cpp+OR+%22TensorRT-LLM%22&hl=en-US&gl=US&ceid=US:en",
+         include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
 
  {"num":"👁️","name":"ローカルvlm・マルチモーダル速報","env":"VLM","color":COL_VLM,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=VLM+OR+vision+OR+multimodal&restrict_sr=on&sort=new&limit=25",
@@ -279,7 +288,12 @@ TOPICS = [
      # ★2026-09-18 v5: 中途半端追加を削除、実測で fresh 確認できたものだけ残す
      rss("https://www.marktechpost.com/feed/", include=VLM_TERMS + ["multimodal", "vision"]),
      # ★★HuggingFace blog Atom (VLM系記事の速報・168h fresh 3件)
-     rss("https://github.com/huggingface/blog/commits/main.atom", include=VLM_TERMS + ["vision", "multimodal", "VLM"])]},
+     rss("https://github.com/huggingface/blog/commits/main.atom", include=VLM_TERMS + ["vision", "multimodal", "VLM"]),
+     # ★2026-09-19 v6: arxiv cs.MM Multimedia論文(★9/24h)
+     rss("https://export.arxiv.org/rss/cs.MM", include=VLM_TERMS + ["vision", "multimodal", "video-language"]),
+     # ★2026-09-19 v6: GN VLM検索
+     rss("https://news.google.com/rss/search?q=%22vision+language+model%22+OR+%22SmolVLM%22+OR+%22InternVL%22+OR+%22Qwen-VL%22&hl=en-US&gl=US&ceid=US:en",
+         include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
 
  {"num":"🎤","name":"ローカルstt・音声認識速報","env":"STT","color":COL_STT,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=Whisper+OR+transcription+OR+speech&restrict_sr=on&sort=new&limit=20",
@@ -305,7 +319,13 @@ TOPICS = [
      rss("https://qiita.com/tags/whisper/feed", include=STT_TERMS + ["Whisper", "文字起こし"]),
      rss("https://zenn.dev/topics/%E9%9F%B3%E5%A3%B0%E8%AA%8D%E8%AD%98/feed", include=STT_TERMS + ["Whisper", "音声"]),
      # ★2026-09-18 v5: 中途半端追加を削除、実測で fresh 確認できたものだけ残す
-     rss("https://www.marktechpost.com/feed/", include=STT_TERMS + ["Whisper", "speech recognition", "ASR"])]},
+     rss("https://www.marktechpost.com/feed/", include=STT_TERMS + ["Whisper", "speech recognition", "ASR"]),
+     # ★2026-09-19 v6 STT強化(★4件→5件目標): 日本語ASRタグ+GN検索
+     rss("https://zenn.dev/topics/asr/feed", include=STT_TERMS + ["ASR", "音声認識", "Whisper"]),
+     rss("https://qiita.com/tags/asr/feed", include=STT_TERMS + ["ASR", "音声認識"]),
+     # ★STT用GN検索(exclude既存で強い)
+     rss("https://news.google.com/rss/search?q=%22Whisper+model%22+OR+%22faster-whisper%22+OR+%22Deepgram%22+OR+%22Kyutai+STT%22+OR+%22Moonshine+ASR%22&hl=en-US&gl=US&ceid=US:en",
+         include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE)]},
 ]
 
 def gn_url(q):
