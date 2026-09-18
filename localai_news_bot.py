@@ -109,20 +109,30 @@ QUANT_TERMS = ["GGUF", "EXL2", "EXL3", "AWQ", "GPTQ", "MXFP4", "INT8 quant", "IN
                "speculative decoding", "投機的デコード", "vLLM", "推論高速化", "unsloth quant"]
 QUANT_EXCLUDE = ["株価", "資金調達", "買収"]
 # ★2026-09-15 実測: "Whisper"/"Parakeet"/"Canary"/"Reverb"/"Silero"は一般語衝突→固有名詞化
-VLM_TERMS = ["Qwen-VL", "Qwen2-VL", "Qwen2.5-VL", "InternVL", "Molmo", "Llama-Vision",
-             "Llama 3.2 Vision", "Pixtral", "MiniCPM-V", "Phi-3.5-vision", "Phi-4-vision",
-             "DeepSeek-VL", "Ovis", "Aria multimodal", "Idefics", "LLaVA", "CogVLM", "Kosmos",
+VLM_TERMS = ["Qwen-VL", "Qwen2-VL", "Qwen2.5-VL", "Qwen3-VL", "InternVL", "InternVL 2", "InternVL 3",
+             "InternVL 2.5", "Molmo", "Llama-Vision", "Llama 3.2 Vision", "Pixtral", "Pixtral-Large",
+             "MiniCPM-V", "MiniCPM-o", "Phi-3.5-vision", "Phi-4-vision", "Phi-4-multimodal",
+             "DeepSeek-VL", "DeepSeek-VL2", "Ovis", "Aria multimodal", "Idefics", "Idefics3", "LLaVA",
+             "LLaVA-OneVision", "CogVLM", "CogVLM2", "Kosmos", "Kosmos-2", "GLM-4V", "GLM-4.5V",
              "vision language model", "VLM", "multimodal LLM", "マルチモーダル", "画像理解",
-             "vision model", "Cambrian", "OmniVLM", "動画理解"]
+             "vision model", "Cambrian", "OmniVLM", "動画理解",
+             # ★2026-09-18 盛々: Hikârư指摘対応(VLM薄い→2025-2026新モデル追加)
+             "SmolVLM", "SmolVLM2", "NuExtract", "Ovis2", "Ovis 2", "Molmo-72B",
+             "Aya Vision", "PaliGemma", "PaliGemma 2", "Florence", "Florence-2",
+             "Gemma 3", "Ministral", "Mistral Small 3"]
 VLM_EXCLUDE = ["株価", "決算", "投資",
                # ★2026-09-16 CDP実測ノイズ: 医療系マルチモーダル誤ヒット
                "多発性骨髄腫", "骨髄腫", "生存予測", "予後予測", "予測モデル",
                "東大と理研", "医療研究", "臨床", "疾患予測", "腫瘍", "がん治療",
                "医療画像", "動的マルチモーダル生存"]
 STT_TERMS = ["OpenAI Whisper", "whisper.cpp", "faster-whisper", "WhisperX", "distil-whisper",
-             "NeMo Parakeet", "NeMo Canary", "Silero VAD", "Vosk speech", "Reverb ASR",
-             "Reverb.ai", "SenseVoice", "音声認識", "speech recognition", "STT",
-             "speech-to-text", "文字起こし", "transcription AI", "VAD model", "voice activity"]
+             "Whisper Large v3", "Whisper v3 Turbo", "Whisper Turbo", "whisper-turbo",
+             "NeMo Parakeet", "Parakeet TDT", "NeMo Canary", "Silero VAD", "Vosk speech",
+             "Reverb ASR", "Reverb.ai", "SenseVoice", "音声認識", "speech recognition", "STT",
+             "speech-to-text", "文字起こし", "transcription AI", "VAD model", "voice activity",
+             # ★2026-09-18 盛々: 2025-2026新モデル
+             "Moonshine STT", "Moonshine ONNX", "Kyutai STT", "Kyutai unmute", "Kotoba Whisper",
+             "ReazonSpeech", "SpeechT5", "Nemotron-STT"]
 STT_EXCLUDE = ["買収", "訴訟", "Alexa", "Google Home", "Yacht WHISPER", "Yacht Whisper",
                "Parakeets, male", "Parakeets bird", "Yacht", "Monaco",
                # ★2026-09-15 実測ノイズ: NLサッカー/映画/イベント誤ヒット
@@ -205,6 +215,9 @@ TOPICS = [
         include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      gn('"量子化" OR "推論最適化" OR "vLLM" OR "TensorRT-LLM" OR "SGLang" OR "投機的デコード" OR "推論高速化"',
         include=QUANT_TERMS + ["LLM"], exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★2026-09-18 盛々: llama.cpp/KV cache/FlashAttention/MoE系
+     gn('"llama.cpp" OR "FlashAttention" OR "PagedAttention" OR "KV cache" OR "ExLlamaV2" OR "GPTQ-quant" OR "AWQ quant" OR "IQ4_XS" OR "Q4_K_M"',
+        include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      rss("https://news.google.com/rss/search?q=%22vLLM%22%20OR%20%22SGLang%22%20OR%20%22TensorRT-LLM%22%20OR%20%22MLX%22%20OR%20%22quantization%22%20OR%20%22GGUF%22&hl=en-US&gl=US&ceid=US:en",
          include=QUANT_TERMS, exclude=QUANT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      gn('site:x.com "GGUF" OR "quantization" OR "EXL2" OR "AWQ" OR "MXFP4" OR "vLLM" -"Astral Quantization" -Grimoire -Psytrance -HP9 -HP3 -"最短焦点距離" -"Ver. 6.0" -"HiTech Dark" -"Dj Grimoire" -Arcaea -"Hardcore Psytrance" -"7 RSR" -佗棄',
@@ -222,7 +235,12 @@ TOPICS = [
  {"num":"👁️","name":"ローカルvlm・マルチモーダル速報","env":"VLM","color":COL_VLM,"sources":[
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=VLM+OR+vision+OR+multimodal&restrict_sr=on&sort=new&limit=25",
          include=VLM_TERMS),
-     gn('"Qwen2.5-VL" OR "Qwen2-VL" OR "InternVL" OR Molmo OR "Llama 3.2 Vision" OR Pixtral OR "MiniCPM-V" OR LLaVA',
+     gn('"Qwen2.5-VL" OR "Qwen2-VL" OR "Qwen3-VL" OR "InternVL" OR Molmo OR "Llama 3.2 Vision" OR Pixtral OR "MiniCPM-V" OR LLaVA',
+        include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★2026-09-18 盛々: 2025-2026新モデル(SmolVLM/PaliGemma/Florence/Gemma3等)
+     gn('"SmolVLM" OR "PaliGemma" OR "Florence-2" OR "Gemma 3" OR "DeepSeek-VL2" OR "GLM-4V" OR "GLM-4.5V" OR "InternVL 3" OR "Ovis 2" OR "MiniCPM-o"',
+        include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     gn('"Aya Vision" OR "Pixtral-Large" OR "Phi-4-multimodal" OR "LLaVA-OneVision" OR "CogVLM2" OR "InternVL 2.5" OR "Idefics3" OR "Molmo-72B" OR "Mistral Small 3"',
         include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      gn('"マルチモーダル" OR "画像理解AI" OR "vision-language" OR "動画理解" -骨髄腫 -臨床 -"生存予測" -"予後予測" -腫瘍 -がん -医療研究 -東大 -理研 -日経Robotics',
         include=VLM_TERMS, exclude=VLM_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
@@ -242,6 +260,9 @@ TOPICS = [
      rss("https://www.reddit.com/r/LocalLLaMA/search.rss?q=Whisper+OR+transcription+OR+speech&restrict_sr=on&sort=new&limit=20",
          include=STT_TERMS),
      gn('"OpenAI Whisper" OR "whisper.cpp" OR "faster-whisper" OR WhisperX OR "distil-whisper" OR "NeMo Parakeet" OR SenseVoice',
+        include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
+     # ★2026-09-18 盛々: 2025-2026新モデル(Moonshine/Kyutai/Whisper Turbo/Kotoba Whisper等)
+     gn('"Moonshine" OR "Kyutai STT" OR "Whisper Turbo" OR "Whisper Large v3" OR "Kotoba Whisper" OR "Parakeet TDT" OR "ReazonSpeech"',
         include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
      gn('"音声認識" OR "文字起こしAI" OR "音声のテキスト化" OR "Whisper" -RECAIUS -東芝 -カスハラ -コールセンター -"対策義務化" -"オンデマンド配信" -イザ！ -Salomon -"XT-Whisper" -Habibi -Carpet -スニダン -"KEYS IN PURPLE" -激ロック -"a whisper" -映画館 -"時のオカリナ" -"Switch 2" -Gamer -AmiVoice -QuickSummary -BIZTEL -AIsmiley -"迷える流れ星" -マリオネットドールズ -"東京マリオネット" -"音声認識マイクモジュール" -"市場規模" -CAGR -岐阜名鉄タクシー -"配車システム" -"字幕表示モニター" -大山崎町 -"多言語案内看板" -西条 -"京都府大山崎町議会" -"聴覚障害者" -BOXIL -"アプリ標準搭載" -エプソン -Endeavor',
         include=STT_TERMS, exclude=STT_EXCLUDE, title_exclude=LOCAL_TITLE_EXCLUDE),
